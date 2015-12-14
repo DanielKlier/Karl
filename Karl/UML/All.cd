@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Karl.Entities.Karl" Collapsed="true">
+    <Position X="1.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAgABAAAAAAAAAAAAAAEAAAAICAAAAAAAAQ=</HashCode>
+      <FileName>Entities\Karl.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Karl.Graphics.Layer" Collapsed="true">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAABAAAAAAAgAAAAIAAAADAAAAAQAAAIAAAACAAAA=</HashCode>
+      <FileName>Graphics\Layer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Sprites" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Karl.Entities.LayerEntity" Collapsed="true">
+    <Position X="4" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEQAIAAAAAAAAAAAAAkAAAAAAABAAAAAAAEABAAQBEA=</HashCode>
+      <FileName>Entities\LayerEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Karl.Entities.Entity" Collapsed="true">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAEAAAAgAAAAAAAAEAAAFAAABEAAEAAAAAAAAAAAQ=</HashCode>
+      <FileName>Entities\Entity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Karl.Collision.Shape" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="Karl.Collision.Shape.CollisionHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Collision\Shape.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAIAgAAAAAAAAAAAQAAAEAAAgIACAAAAAAIA=</HashCode>
+      <FileName>Collision\Shape.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Karl.Graphics.SpriteInstance" Collapsed="true">
+    <Position X="7" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Graphics\SpriteInstance.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Sprite" />
+      <Field Name="Transform" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Karl.Entities.World" Collapsed="true">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <AssociationLine Name="Layers" Type="Karl.Graphics.Layer" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.812" Y="1.062" />
+        <Point X="1.812" Y="2.781" />
+        <Point X="4" Y="2.781" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="entities" Type="Karl.Entities.Entity" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="1.312" Y="1.062" />
+        <Point X="1.312" Y="3.781" />
+        <Point X="4" Y="3.781" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAQiECAAQgAhAgAAAAEBAAAAAAAAAQAEAIAABAAAAAQ=</HashCode>
+      <FileName>Entities\World.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Space" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="entities" />
+      <Property Name="Layers" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Karl.Collision.Space" Collapsed="true">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Struct Name="Karl.Collision.Space.Collision" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Collision\Space.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQEAAIAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAABIA=</HashCode>
+      <FileName>Collision\Space.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Shapes" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Karl.Entities.Wuschel" Collapsed="true">
+    <Position X="6.25" Y="6" Width="1.5" />
+    <AssociationLine Name="aniIdle" Type="Karl.Graphics.SpriteAnimation" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.25" Y="6" />
+        <Point X="7.25" Y="4.5" />
+        <Point X="12.75" Y="4.5" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>ACQBEAAAAAgABAAAAAkAAgAAAABABAAAIAAgAAAAAQQ=</HashCode>
+      <FileName>Entities\Wuschel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="aniIdle" />
+      <Field Name="animationState" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Karl.Entities.Fireball" Collapsed="true">
+    <Position X="4" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAgARAAAAAEAAAAAAAAAAAAgIAAAAAAAAAQ=</HashCode>
+      <FileName>Entities\Fireball.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Karl.Collision.Circle" Collapsed="true">
+    <Position X="6.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Collision\Circle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Karl.Graphics.SpriteAnimation" Collapsed="true">
+    <Position X="12.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAABAAAAAAAAAAAAAAQAAAAE=</HashCode>
+      <FileName>Graphics\SpriteAnimation.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Frames" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Karl.Graphics.SpriteAnimationState" Collapsed="true">
+    <Position X="12.25" Y="6" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQpAAAAAAAAACAAgAgAAIAAAAAAAAAQoAAAAAAACAA=</HashCode>
+      <FileName>Graphics\SpriteAnimationState.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Animation" />
+    </ShowAsAssociation>
+  </Class>
+  <Struct Name="Karl.Graphics.Sprite" Collapsed="true">
+    <Position X="10.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABgAAAAAAAAQAAEAAAAAAAAAAAAIAgAgIAAA=</HashCode>
+      <FileName>Graphics\Sprite.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Karl.Core.Transform" Collapsed="true">
+    <Position X="10.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAIAgYAcAAAAAAQAAAIAAAEAAAAAAAAA=</HashCode>
+      <FileName>Core\Transform.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Karl.Graphics.SpriteAnimationFrame" Collapsed="true">
+    <Position X="12.75" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAQA=</HashCode>
+      <FileName>Graphics\SpriteAnimationFrame.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Sprite" />
+    </ShowAsAssociation>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
