@@ -15,22 +15,11 @@ namespace HexTileGame.States
         SpriteBatch _spriteBatch;
         World _world;
         Camera _camera;
-
+        private HexTileMap _hexTileMap;
         Layer _hexTileLayer;
-
-        const int Width = 31;
-        const int Height = 16;
-
-        const int HexRadius = 32;
-        readonly int _hexHeight;
-
-        readonly Random _randomGenerator = new Random();
-
-        Hexagon[,] _hexes = new Hexagon[Width, Height];
 
         public IngameState()
         {
-            _hexHeight = (int)(Math.Cos(Math.PI / 6) * HexRadius);
         }
 
         public override void Initialize(GameStateManager manager)
@@ -39,12 +28,12 @@ namespace HexTileGame.States
 
             _world = new World();
             _camera = new Camera(Transform.Identity);
-
             _hexTileLayer = new Layer(1, 1);
+            _hexTileMap = new HexTileMap(31, 16, _hexTileLayer, _world, 32);
 
             _world.Layers.Add(_hexTileLayer);
-
-            _hexes = CreateHexagons(_hexes);
+            
+            _hexTileMap.Create();
         }
 
         public override void LoadContent()
@@ -71,48 +60,7 @@ namespace HexTileGame.States
             _world.Draw(_spriteBatch, _camera);
         }
 
-        private Hexagon[,] CreateHexagons(Hexagon[,] hexes)
-        {
-            var w = hexes.GetLength(0);
-            var h = hexes.GetLength(1);
-            var fieldWidth = (w - 0.25f * (w - 1)) * HexRadius * 2;
-            var offsetX = (int)(-fieldWidth / 2);
-            var offsetY = -h * _hexHeight;
-
-            for (var i = 0; i < h; ++i)
-            {
-                for (var j = 0; j < w; j++)
-                {
-                    var hex = MakeHex(i, j, offsetX, offsetY);
-                    hexes[j, i] = hex;
-                    _world.AddEntity(hex);
-                }
-            }
-
-            return hexes;
-        }
-
-        private Hexagon MakeHex(int i, int j, int offX, int offY)
-        {
-            var x = 1.5f * HexRadius * j + offX;
-            float y = 2 * _hexHeight * i + (j % 2) * _hexHeight + offY;
-
-            var type = _randomGenerator.Next(3);
-            Hexagon hex;
-            if (type > 1)
-                hex = new LandHexagon(_hexTileLayer);
-            else
-                hex = new WaterHexagon(_hexTileLayer);
-
-            hex.Transform = new Transform()
-            {
-                Position = new Vector2(x, y),
-                Rotation = 0,
-                Scale = 1
-            };
-
-            return hex;
-        }
+        
 
         private void UpdateCameraFromInput(KeyboardState currKeyboardState, float dt)
         {
