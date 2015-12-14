@@ -54,7 +54,7 @@ namespace Karl
             var windowWidth = _videoSettings.GetInt("Window.Width");
             var windowHeight = _videoSettings.GetInt("Window.Height");
             var fullscreen = windowMode == "fullscreen";
-            var vSync = _videoSettings.GetBool("VSync");
+            var vSync = _videoSettings.GetBool("Device.VSync");
 
             if (windowMode == "borderless")
             {
