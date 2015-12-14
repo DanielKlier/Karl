@@ -15,7 +15,7 @@ namespace Karl
         /// <summary>
         /// GraphicsDeviceManager instance. Must be created in the constructor in order to be available as a service.
         /// </summary>
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
 
         private readonly EasyStorageAdapter _storageProvider;
 
@@ -54,13 +54,14 @@ namespace Karl
             var windowWidth = _videoSettings.GetInt("Window.Width");
             var windowHeight = _videoSettings.GetInt("Window.Height");
             var fullscreen = windowMode == "fullscreen";
+            var vSync = _videoSettings.GetBool("VSync");
 
             if (windowMode == "borderless")
             {
                 windowWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
                 windowHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
-                var hWnd = this.Window.Handle;
+                var hWnd = Window.Handle;
                 var control = System.Windows.Forms.Control.FromHandle(hWnd);
                 var form = control.FindForm();
                 if (form != null) form.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -69,6 +70,7 @@ namespace Karl
             _graphics.PreferredBackBufferWidth = windowWidth;
             _graphics.PreferredBackBufferHeight = windowHeight;
             _graphics.IsFullScreen = fullscreen;
+            _graphics.SynchronizeWithVerticalRetrace = vSync;
 
             _graphics.ApplyChanges();
         }
