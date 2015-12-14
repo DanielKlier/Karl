@@ -11,7 +11,12 @@ namespace HexTileGame
     /// </summary>
     public class HexTileGame : Game
     {
+        /// <summary>
+        /// GraphicsDeviceManager instance. Must be created in the constructor in order to be available as a service.
+        /// </summary>
         GraphicsDeviceManager _graphics;
+
+
         readonly GameStateManager _gameStateManager;
 
         public HexTileGame()
