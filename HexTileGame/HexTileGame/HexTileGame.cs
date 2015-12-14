@@ -11,10 +11,12 @@ namespace HexTileGame
     /// </summary>
     public class HexTileGame : Game
     {
+        GraphicsDeviceManager _graphics;
         readonly GameStateManager _gameStateManager;
 
         public HexTileGame()
         {
+            _graphics = new GraphicsDeviceManager(this);
             _gameStateManager = new GameStateManager(this);
 
             var content = new ExtensibleContentManager(Services);

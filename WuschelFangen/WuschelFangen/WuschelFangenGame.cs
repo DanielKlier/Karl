@@ -12,10 +12,12 @@ namespace WuschelFangen
     /// </summary>
     public class WuschelFangenGame : Game
     {
+        private GraphicsDeviceManager _graphics;
         readonly GameStateManager _gameStateManager;
 
         public WuschelFangenGame()
         {
+            _graphics = new GraphicsDeviceManager(this);
             _gameStateManager = new GameStateManager(this);
 
             var content = new ExtensibleContentManager(Services);
