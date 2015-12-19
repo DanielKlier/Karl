@@ -44,10 +44,56 @@ namespace Karl.Collision
 
         public void Update()
         {
-            var numShapes = _shapes.Count;
+            FindCurrentCollisions();
+            TriggerCollisionEvents();
+            TriggerSeperationEvents();
+            ClearCurrentCollisions();
+        }
 
+        private void ClearCurrentCollisions()
+        {
+            var tempCollisions = _lastCollisions;
+            _lastCollisions = _currCollisions;
+            _currCollisions = tempCollisions;
+            _currCollisions.Clear();
+        }
+
+        private void TriggerSeperationEvents()
+        {
+            // trigger seperation event for every shape which was colliding 
+            // during the last update but not colliding during this update anymore.
+            foreach (var collision in _lastCollisions)
+            {
+                if ((collision.ShapeA.Mask & collision.ShapeB.Group) != 0)
+                    collision.ShapeA.OnSeparation(this, collision.ShapeB);
+
+                if ((collision.ShapeB.Mask & collision.ShapeA.Group) != 0)
+                    collision.ShapeB.OnSeparation(this, collision.ShapeA);
+            }
+        }
+
+        private void TriggerCollisionEvents()
+        {
+            // trigger collision event for every currently colliding shape.
+            foreach (var collision in _currCollisions)
+            {
+                // remove collision from the last collisions list 
+                // if the same two shapes are still colliding.
+                if (_lastCollisions.Contains(collision))
+                    _lastCollisions.Remove(collision);
+
+                if ((collision.ShapeA.Mask & collision.ShapeB.Group) != 0)
+                    collision.ShapeA.OnCollision(this, collision.ShapeB);
+
+                if ((collision.ShapeB.Mask & collision.ShapeA.Group) != 0)
+                    collision.ShapeB.OnCollision(this, collision.ShapeA);
+            }
+        }
+
+        protected virtual void FindCurrentCollisions()
+        {
             // find current collisions
-            for (var idxShapeA = 0; idxShapeA < numShapes; ++idxShapeA)
+            for (int numShapes = _shapes.Count, idxShapeA = 0; idxShapeA < numShapes; ++idxShapeA)
             {
                 for (var idxShapeB = idxShapeA + 1; idxShapeB < numShapes; ++idxShapeB)
                 {
@@ -65,37 +111,6 @@ namespace Karl.Collision
                         _currCollisions.Add(new Collision(shapeA, shapeB));
                 }
             }
-
-            // trigger collision event for every currently colliding shape.
-            foreach (var collision in _currCollisions)
-            {
-                // remove collision from the last collisions list 
-                // if the same two shapes are still colliding.
-                if (_lastCollisions.Contains(collision))
-                    _lastCollisions.Remove(collision);
-
-                if ((collision.ShapeA.Mask & collision.ShapeB.Group) != 0)
-                    collision.ShapeA.OnCollision(this, collision.ShapeB);
-
-                if ((collision.ShapeB.Mask & collision.ShapeA.Group) != 0)
-                    collision.ShapeB.OnCollision(this, collision.ShapeA);
-            }
-
-            // trigger seperation event for every shape which was colliding 
-            // during the last update but not colliding during this update anymore.
-            foreach (var collision in _lastCollisions)
-            {
-                if ((collision.ShapeA.Mask & collision.ShapeB.Group) != 0)
-                    collision.ShapeA.OnSeparation(this, collision.ShapeB);
-
-                if ((collision.ShapeB.Mask & collision.ShapeA.Group) != 0)
-                    collision.ShapeB.OnSeparation(this, collision.ShapeA);
-            }
-
-            var tempCollisions = _lastCollisions;
-            _lastCollisions = _currCollisions;
-            _currCollisions = tempCollisions;
-            _currCollisions.Clear();
         }
 
         public IList<Shape> Shapes
