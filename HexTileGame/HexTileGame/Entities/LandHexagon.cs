@@ -14,6 +14,10 @@ namespace HexTileGame.Entities
         {
         }
 
+        public LandHexagon()
+        {
+        }
+
         protected override void LoadContent()
         {
             base.LoadContent();

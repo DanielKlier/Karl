@@ -15,6 +15,7 @@ namespace HexTileGame.Entities
 
         public SpriteInstance BorderSprite { get; private set; }
 
+        protected Hexagon() { }
         protected Hexagon(Layer layer) : base(layer) { }
 
         protected override void LoadContent()

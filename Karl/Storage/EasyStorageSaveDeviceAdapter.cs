@@ -24,5 +24,10 @@ namespace Karl.Storage
         {
             _device.Load(container, fileName, stream => action(stream));
         }
+
+        public bool FileExists(string container, string fileName)
+        {
+            return _device.FileExists(container, fileName);
+        }
     }
 }

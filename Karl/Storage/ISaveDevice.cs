@@ -10,5 +10,6 @@ namespace Karl.Storage
     {
         void Save(string container, string fileName, Action<Stream> action);
         void Load(string container, string fileName, Action<Stream> action);
+        bool FileExists(string container, string fileName);
     }
 }

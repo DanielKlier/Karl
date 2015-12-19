@@ -83,11 +83,13 @@
     <Compile Include="Content\SpriteAnimationPlugin.cs" />
     <Compile Include="Content\SpritePlugin.cs" />
     <Compile Include="Core\Align.cs" />
+    <Compile Include="Core\Extensions\RandomExtensions.cs" />
     <Compile Include="Core\Extensions\Vector2Extensions.cs" />
     <Compile Include="Core\Timer.cs" />
     <Compile Include="Core\Transform.cs" />
     <Compile Include="Entities\CollisionGroup.cs" />
     <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Graphics\DrawingUtils.cs" />
     <Compile Include="KarlGame.cs" />
     <Compile Include="Graphics\Extensions\SpriteBatchCameraExtensions.cs" />
     <Compile Include="Graphics\Extensions\SpriteBatchTextExtensions.cs" />

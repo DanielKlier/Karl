@@ -15,6 +15,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexTileGameContent", "HexTi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyStorage [Windows]", "EasyStorage\EasyStorage [Windows].csproj", "{A89EB1D5-B286-48EB-A864-315ABCDAA024}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuadtreeDemo", "QuadtreeDemo\QuadtreeDemo\QuadtreeDemo.csproj", "{EA0C4807-657A-4CA5-93A6-17E911E004B3}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "QuadtreeDemoContent", "QuadtreeDemo\QuadtreeDemoContent\QuadtreeDemoContent.contentproj", "{515C8EAB-9E3D-4752-BE02-498AA9D7FFA5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{54E15669-1ECB-4053-9A79-97E35C0066A8}"
+	ProjectSection(SolutionItems) = preProject
+		Performance1.psess = Performance1.psess
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -85,8 +94,29 @@ Global
 		{A89EB1D5-B286-48EB-A864-315ABCDAA024}.Release|Win32.Build.0 = Release|x86
 		{A89EB1D5-B286-48EB-A864-315ABCDAA024}.Release|x86.ActiveCfg = Release|x86
 		{A89EB1D5-B286-48EB-A864-315ABCDAA024}.Release|x86.Build.0 = Release|x86
+		{EA0C4807-657A-4CA5-93A6-17E911E004B3}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{EA0C4807-657A-4CA5-93A6-17E911E004B3}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{EA0C4807-657A-4CA5-93A6-17E911E004B3}.Debug|Win32.ActiveCfg = Debug|x86
+		{EA0C4807-657A-4CA5-93A6-17E911E004B3}.Debug|Win32.Build.0 = Debug|x86
+		{EA0C4807-657A-4CA5-93A6-17E911E004B3}.Debug|x86.ActiveCfg = Debug|x86
+		{EA0C4807-657A-4CA5-93A6-17E911E004B3}.Debug|x86.Build.0 = Debug|x86
+		{EA0C4807-657A-4CA5-93A6-17E911E004B3}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{EA0C4807-657A-4CA5-93A6-17E911E004B3}.Release|Mixed Platforms.Build.0 = Release|x86
+		{EA0C4807-657A-4CA5-93A6-17E911E004B3}.Release|Win32.ActiveCfg = Release|x86
+		{EA0C4807-657A-4CA5-93A6-17E911E004B3}.Release|Win32.Build.0 = Release|x86
+		{EA0C4807-657A-4CA5-93A6-17E911E004B3}.Release|x86.ActiveCfg = Release|x86
+		{EA0C4807-657A-4CA5-93A6-17E911E004B3}.Release|x86.Build.0 = Release|x86
+		{515C8EAB-9E3D-4752-BE02-498AA9D7FFA5}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{515C8EAB-9E3D-4752-BE02-498AA9D7FFA5}.Debug|Win32.ActiveCfg = Debug|x86
+		{515C8EAB-9E3D-4752-BE02-498AA9D7FFA5}.Debug|x86.ActiveCfg = Debug|x86
+		{515C8EAB-9E3D-4752-BE02-498AA9D7FFA5}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{515C8EAB-9E3D-4752-BE02-498AA9D7FFA5}.Release|Win32.ActiveCfg = Release|x86
+		{515C8EAB-9E3D-4752-BE02-498AA9D7FFA5}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

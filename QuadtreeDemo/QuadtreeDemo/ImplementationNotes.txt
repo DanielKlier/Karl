@@ -1,0 +1,7 @@
+﻿1.)	Klasse "Quadtree" als Facade vor QuadtreeNode hinzugefügt und die Methoden eingebaut. 
+	Der Quadtree funktioniert über den Wurzelknoten auch ohne die Facade aber konzeptionell ist es angenehmer, eine Repräsentation des gesamten Baumes zu haben.
+
+2.) Die Klasse "QuadtreeNode" steht für einen Knoten im Quadtree. Ein Quadtree ist ein Baum (genau ein Wurzelknoten) wobei jeder Knoten entweder keine oder genau vier Kindknoten hat.
+	Jeder Knoten hat eine Liste mit dem Inhalt des Knotens sowie eine Bounding Box. Die BB des Wurzelknotens umschließt alle Objekte, die vom QT verwaltet werden. Die BBs der vier Kindknoten
+	unterteilen die BB ihres Elternknotens in vier gleich große Quadranten.
+	

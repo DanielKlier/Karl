@@ -50,11 +50,17 @@ namespace Karl.Settings
         public void Load(IStorageProvider storageProvider, Action callback)
         {
             storageProvider.RequestSharedDevice()
-                .Ready(saveDevice => saveDevice.Load("settings", FilePath, stream =>
+                .Ready(saveDevice =>
                 {
-                    new IniFile(_settings).Load(stream);
-                    if( callback != null) callback();
-                }));
+                    if (saveDevice.FileExists("settings", FilePath))
+                    {
+                        saveDevice.Load("settings", FilePath, stream =>
+                        {
+                            new IniFile(_settings).Load(stream);
+                            if (callback != null) callback();
+                        });
+                    }
+                });
         }
 
         public string GetString(string key)
