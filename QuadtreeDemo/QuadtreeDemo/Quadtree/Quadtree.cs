@@ -12,15 +12,15 @@ namespace QuadtreeDemo.Quadtree
     {
         private readonly QuadtreeNode<TNodeDataType> _rootNode;
 
-        public Quadtree()
+        public Quadtree(Rectangle bounds)
         {
-            _rootNode = new QuadtreeNode<TNodeDataType>();
+            _rootNode = new QuadtreeNode<TNodeDataType>(bounds);
         }
 
         public void AddObject(TNodeDataType data)
         {
-            if (!_rootNode.BoundingBox.Contains(data.BoundingBox))
-                _rootNode.UpdateBounds(data.BoundingBox);
+            /*if (!_rootNode.BoundingBox.Contains(data.BoundingBox))
+                _rootNode.UpdateBounds(data.BoundingBox);*/
             _rootNode.AddObject(data);
         }
 

@@ -10,29 +10,30 @@ namespace QuadtreeDemo.Quadtree
     {
         private delegate Rectangle BoundingBoxCalculator(Rectangle parent);
 
-        private Rectangle CalculateBoundingBoxTopLeft(Rectangle parent)
+        private static Rectangle CalculateBoundingBoxTopLeft(Rectangle parent)
         {
             return new Rectangle(parent.Left, parent.Top, parent.Width / 2, parent.Height / 2);
         }
 
-        private Rectangle CalculateBoundingBoxBottomLeft(Rectangle parent)
+        private static Rectangle CalculateBoundingBoxBottomLeft(Rectangle parent)
         {
             return new Rectangle(parent.Left, parent.Top + parent.Height / 2, parent.Width / 2, parent.Height / 2);
         }
 
-        private Rectangle CalculateBoundingBoxBottomRight(Rectangle parent)
+        private static Rectangle CalculateBoundingBoxBottomRight(Rectangle parent)
         {
             return new Rectangle(parent.Left + parent.Width - parent.Width / 2, parent.Top + parent.Height / 2,
                     (int)Math.Ceiling(parent.Width / 2f), (int)Math.Ceiling(parent.Height / 2f));
         }
 
-        private Rectangle CalculateBoundingBoxTopRight(Rectangle parent)
+        private static Rectangle CalculateBoundingBoxTopRight(Rectangle parent)
         {
             return new Rectangle(parent.Left + parent.Width - parent.Width / 2, parent.Top,
                     (int)Math.Ceiling(parent.Width / 2f), parent.Height / 2);
         }
 
-        private const int Capacity = 50;
+        //
+        private const int Capacity = 4;
         private const int MaxDepth = 10;
         private Rectangle _boundingBox;
 
@@ -40,17 +41,17 @@ namespace QuadtreeDemo.Quadtree
         // Maybe it would be better to make this node abstract and derive a leaf node type as only those need to store data.
         // Existing leaf nodes may be reused when splitting a node.
         private List<TNodeDataType> _data = new List<TNodeDataType>(Capacity);
-        //private TNodeDataType _data = new TNodeDataType[Capacity];
-        //private HashSet<TNodeDataType> _data;
+        //private TNodeDataType[] _data = new TNodeDataType[Capacity];
+        //private HashSet<TNodeDataType> _data = new HashSet<TNodeDataType>();
 
         private readonly QuadtreeNode<TNodeDataType>_parent ;
-        private QuadtreeNode<TNodeDataType>[] _children = new QuadtreeNode<TNodeDataType>[0];
+        private QuadtreeNode<TNodeDataType>[] _children;
         private readonly BoundingBoxCalculator _boundingBoxCalculator;
         private readonly int _depth;
 
-        public QuadtreeNode()
+        public QuadtreeNode(Rectangle bounds)
         {
-            
+            _boundingBox = bounds;
         }
 
         private QuadtreeNode(BoundingBoxCalculator boundingBoxCalculator, QuadtreeNode<TNodeDataType> parent, int depth)
@@ -67,7 +68,7 @@ namespace QuadtreeDemo.Quadtree
 
         public void AddObject(TNodeDataType data)
         {
-            if (_children.Length == 0)
+            if (_children == null)
             {
                 _data.Add(data);
                 
@@ -110,7 +111,7 @@ namespace QuadtreeDemo.Quadtree
 
         public void FindNodesForRectangle(Rectangle boundingBox, HashSet<QuadtreeNode<TNodeDataType>> result)
         {
-            if (_children.Length > 0)
+            if (_children != null)
             {
                 foreach (var child in _children.Where(child => child._boundingBox.Intersects(boundingBox)))
                 {
@@ -127,7 +128,7 @@ namespace QuadtreeDemo.Quadtree
         public void Visit(Func<QuadtreeNode<TNodeDataType>, int, bool> iterateeFunc, int depth)
         {
             var keepGoing = iterateeFunc(this, depth);
-            if (keepGoing)
+            if (keepGoing && _children != null)
             {
                 foreach (var child in _children)
                 {
@@ -138,7 +139,7 @@ namespace QuadtreeDemo.Quadtree
 
         public void UpdateBounds(Rectangle objectBoundingBox)
         {
-            if (_data != null && _data.Count == 0 && _children.Length == 0)
+            if (_data != null && _data.Count == 0 && _children == null)
             {
                 _boundingBox = objectBoundingBox;
             }
@@ -154,34 +155,16 @@ namespace QuadtreeDemo.Quadtree
                 _boundingBox.Width = width;
                 _boundingBox.Height = height;
 
-                foreach (var child in _children)
-                {
-                    child.InitializeBoundingBox(_boundingBox);
+                if( _children != null)
+                { 
+                    foreach (var child in _children)
+                    {
+                        child.InitializeBoundingBox(_boundingBox);
+                    }
                 }
             }
         }
 
-        private void InitializeBoundingBox(Rectangle parentBoundingBox)
-        {
-            _boundingBox = _boundingBoxCalculator(parentBoundingBox);
-
-            if (_children.Length == 0)
-            {
-                var dataCopy = new HashSet<TNodeDataType>(_data);
-                _data.Clear();
-                foreach (var data in dataCopy)
-                {
-                    _parent.AddObject(data);
-                }
-            }
-            else
-            {
-                foreach (var child in _children)
-                {
-                    child.InitializeBoundingBox(_boundingBox);
-                }
-            }
-        }
 
         private void Split()
         {
@@ -202,20 +185,67 @@ namespace QuadtreeDemo.Quadtree
 
         private void RedistributeData()
         {
-            // Re-evaluate all the data in this node and place it into the child nodes. If an object's bounding box overlaps two or more nodes, place a reference in each of the nodes
-            foreach (var dataObject in _data)
+            if(_children != null)
             {
-                foreach (var child in _children)
+                List<TNodeDataType> dataToRemoveFromParent = new List<TNodeDataType>();
+
+                // Re-evaluate all the data in this node and place it into the child nodes. If an object's bounding box overlaps two or more nodes, place a reference in each of the nodes
+                foreach (var dataObject in _data)
                 {
-                    if (dataObject.BoundingBox.Intersects(child._boundingBox))
+                    QuadtreeNode<TNodeDataType> containingChild = null;
+                    int numChilds = 0;
+
+                    foreach (var child in _children)
                     {
-                        child.AddObject(dataObject);
+                        
+
+                        if (child._boundingBox.Contains(dataObject.BoundingBox))
+                        {
+                            ++numChilds;
+                            containingChild = child;
+                        }
+
+                        
+                    }
+
+                    if (numChilds == 1)
+                    {
+                        dataToRemoveFromParent.Add(dataObject);
+                        containingChild.AddObject(dataObject);
                     }
                 }
+
+                foreach (var dataObject in dataToRemoveFromParent) {
+                    _data.Remove(dataObject);
+                }
+
             }
 
             // Objects are all moved to the new leaf nodes so we can clear this node's data
-            _data = null;
+            //_data = null;
+        }
+
+
+        private void InitializeBoundingBox(Rectangle parentBoundingBox)
+        {
+            _boundingBox = _boundingBoxCalculator(parentBoundingBox);
+
+            if (_children == null)
+            {
+                var dataCopy = new HashSet<TNodeDataType>(_data);
+                _data.Clear();
+                foreach (var data in dataCopy)
+                {
+                    _parent.AddObject(data);
+                }
+            }
+            else
+            {
+                foreach (var child in _children)
+                {
+                    child.InitializeBoundingBox(_boundingBox);
+                }
+            }
         }
 
     }

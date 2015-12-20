@@ -32,14 +32,14 @@ namespace QuadtreeDemo.States
         private World _world;
         private SpriteBatch _spriteBatch;
         private Camera _camera;
-        private bool _enableAutoSpawn = true;
-        private readonly TimeSpan _wuschelSpawnInterval = TimeSpan.FromMilliseconds(20);
+        private bool _enableAutoSpawn = false;
+        private readonly TimeSpan _wuschelSpawnInterval = TimeSpan.FromMilliseconds(2);
         private KeyboardState _previousKeyboardState;
         private KeyboardState _currentKeyboardState;
         private Quadtree<BaseEntity> _quadtree;
         private DrawingUtils _drawingUtils;
         private readonly Random _random = new Random(1);
-        private readonly Rectangle _creationBounds = new Rectangle(-1000, -1000, 2000, 2000);
+        private readonly Rectangle _creationBounds = new Rectangle(-250, -250, 500, 500);
         private SpriteFont _uiFont;
         private TextInstance _wuschelCounterText;
 
@@ -59,7 +59,7 @@ namespace QuadtreeDemo.States
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _camera = new Camera(Transform.Identity);
 
-            _world = new World( () => new QuadtreeSpace() );
+            _world = new World( () => new QuadtreeSpace(_creationBounds) );
             
             _wuschelLayer = new Layer(1.0f, 1.0f);
             _world.Layers.Add(_wuschelLayer);
@@ -74,7 +74,7 @@ namespace QuadtreeDemo.States
             };
             _uiLayer.Texts.Add(_wuschelCounterText);
 
-            _quadtree = new Quadtree<BaseEntity>();
+            _quadtree = new Quadtree<BaseEntity>(_creationBounds);
         }
 
         public override void LoadContent()

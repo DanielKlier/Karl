@@ -1,11 +1,17 @@
 ﻿using Karl.Collision;
+using Microsoft.Xna.Framework;
 using QuadtreeDemo.Quadtree;
 
 namespace QuadtreeDemo.Collision
 {
     class QuadtreeSpace : Space
     {
-        private readonly Quadtree<Shape> _quadtree = new Quadtree<Shape>();
+        private readonly Quadtree<Shape> _quadtree;
+
+        public QuadtreeSpace(Rectangle worldBounds)
+        {
+            _quadtree = new Quadtree<Shape>(worldBounds);
+        }
 
         public override void AddShape(Shape shape)
         {
