@@ -53,12 +53,12 @@ namespace WuschelFangen.Entities
             _targetPosition = Transform.Position;
             _sensor.Transform = Transform;
 
-            World.Space.Shapes.Add(_sensor);
+            World.Space.AddShape(_sensor);
         }
 
         protected override void Kill()
         {
-            World.Space.Shapes.Remove(_sensor);
+            World.Space.RemoveShape(_sensor);
 
             base.Kill();
         }

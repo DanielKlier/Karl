@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using Karl.Collision;
 using Karl.Graphics;
 using Microsoft.Xna.Framework.Content;
@@ -14,9 +15,13 @@ namespace Karl.Entities
 
         protected List<Entity> Entities = new List<Entity>();
         
-        public World()
+        public World(Func<Space> spaceFactory = null)
         {
-            Space = new Space();
+            if (spaceFactory == null)
+                Space = DefaultSpaceFactory();
+            else
+                Space = spaceFactory();
+
             Layers = new LayerCollection();
         }
 
@@ -87,7 +92,12 @@ namespace Karl.Entities
 
         protected virtual void AfterUpdate(TimeSpan elapsedTime)
         {
-            Space.Update();
+            //Space.Update();
+        }
+        
+        private Space DefaultSpaceFactory()
+        {
+            return new Space();
         }
 
         public ContentManager Content { get; private set; }

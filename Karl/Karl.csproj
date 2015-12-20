@@ -85,6 +85,8 @@
     <Compile Include="Core\Align.cs" />
     <Compile Include="Core\Extensions\RandomExtensions.cs" />
     <Compile Include="Core\Extensions\Vector2Extensions.cs" />
+    <Compile Include="Core\Factory.cs" />
+    <Compile Include="Core\IBoundingBox.cs" />
     <Compile Include="Core\Timer.cs" />
     <Compile Include="Core\Transform.cs" />
     <Compile Include="Entities\CollisionGroup.cs" />

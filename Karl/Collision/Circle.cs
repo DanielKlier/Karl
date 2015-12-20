@@ -1,4 +1,6 @@
-﻿namespace Karl.Collision
+﻿using Microsoft.Xna.Framework;
+
+namespace Karl.Collision
 {
     public class Circle : Shape
     {
@@ -16,6 +18,12 @@
         {
             var circle = other as Circle;
             return circle != null && Intersects(circle);
+        }
+
+        protected override Rectangle CalculateBoundingBox()
+        {
+            var pos = Transform.Position;
+            return new Rectangle( (int)(pos.X - Radius), (int)(pos.Y - Radius), (int)(Radius * 2), (int)(Radius * 2)); 
         }
 
         public bool Intersects(Circle other)

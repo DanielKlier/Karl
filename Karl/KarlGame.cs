@@ -25,6 +25,8 @@ namespace Karl
 
         protected KarlGame()
         {
+            RegisterFactories();
+
             _graphics = new GraphicsDeviceManager(this);
             GameStateManager = new GameStateManager(this);
 
@@ -37,6 +39,10 @@ namespace Karl
 
             _storageProvider = new EasyStorageAdapter();
             Components.Add(_storageProvider);
+        }
+
+        private void RegisterFactories()
+        {
         }
 
         protected override void Initialize()

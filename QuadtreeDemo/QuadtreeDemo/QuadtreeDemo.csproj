@@ -72,8 +72,8 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collision\QuadtreeSpace.cs" />
     <Compile Include="Entities\BaseEntity.cs" />
-    <Compile Include="Quadtree\IBoundingBox.cs" />
     <Compile Include="Quadtree\Quadtree.cs" />
     <Compile Include="Quadtree\QuadtreeNode.cs" />
     <Compile Include="States\DemoGameState.cs" />

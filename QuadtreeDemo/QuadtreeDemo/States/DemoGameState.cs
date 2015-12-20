@@ -8,6 +8,7 @@ using Karl.Graphics.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using QuadtreeDemo.Collision;
 using QuadtreeDemo.Entities;
 using QuadtreeDemo.Quadtree;
 
@@ -27,6 +28,7 @@ namespace QuadtreeDemo.States
         private int _wuschelCount;
         private readonly Timer _wuschelCreationTimer = new Timer();
         private Layer _wuschelLayer;
+        private Layer _uiLayer;
         private World _world;
         private SpriteBatch _spriteBatch;
         private Camera _camera;
@@ -39,6 +41,7 @@ namespace QuadtreeDemo.States
         private readonly Random _random = new Random(1);
         private readonly Rectangle _creationBounds = new Rectangle(-1000, -1000, 2000, 2000);
         private SpriteFont _uiFont;
+        private TextInstance _wuschelCounterText;
 
         private UiFlags _uiFlags = new UiFlags()
         {
@@ -56,22 +59,39 @@ namespace QuadtreeDemo.States
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _camera = new Camera(Transform.Identity);
 
-            _world = new World();
+            _world = new World( () => new QuadtreeSpace() );
+            
             _wuschelLayer = new Layer(1.0f, 1.0f);
             _world.Layers.Add(_wuschelLayer);
+
+            _uiLayer = new Layer(0f, 1f);
+            _world.Layers.Add(_uiLayer);
+
+            _wuschelCounterText = new TextInstance()
+            {
+                Transform = new Transform(380, -230),
+                Align = Align.TopRight
+            };
+            _uiLayer.Texts.Add(_wuschelCounterText);
+
             _quadtree = new Quadtree<BaseEntity>();
         }
 
         public override void LoadContent()
         {
             _uiFont = Content.Load<SpriteFont>("Arial20");
+
+            _wuschelCounterText.Font = _uiFont;
+
             _world.LoadContent(Content);
+            
         }
 
         private void CreateWuschel()
         {
             _wuschelCount += 1;
             _wuschelCreationTimer.Start(_wuschelSpawnInterval);
+            _wuschelCounterText.Text = "Wuschels: " + _wuschelCount;
 
             var wuschel = new Wuschel(_wuschelLayer) {Index = _wuschelCount};
 

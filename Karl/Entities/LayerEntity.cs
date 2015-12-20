@@ -48,13 +48,13 @@ namespace Karl.Entities
         private void AddShape()
         {
             if (World != null && _shape != null)
-                World.Space.Shapes.Add(_shape);
+                World.Space.AddShape(_shape);
         }
 
         private void RemoveShape()
         {
             if (World != null && _shape != null)
-                World.Space.Shapes.Remove(_shape);
+                World.Space.RemoveShape(_shape);
         }
 
         private void UpdateShape()

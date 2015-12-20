@@ -50,6 +50,16 @@ namespace Karl.Collision
             ClearCurrentCollisions();
         }
 
+        public virtual void AddShape(Shape shape)
+        {
+            Shapes.Add(shape);
+        }
+
+        public virtual void RemoveShape(Shape shape)
+        {
+            Shapes.Remove(shape);
+        }
+
         private void ClearCurrentCollisions()
         {
             var tempCollisions = _lastCollisions;
@@ -108,12 +118,17 @@ namespace Karl.Collision
 
                     // do the actual collision test
                     if (shapeA.Intersects(shapeB))
-                        _currCollisions.Add(new Collision(shapeA, shapeB));
+                        AddCollision(shapeA, shapeB);
                 }
             }
         }
 
-        public IList<Shape> Shapes
+        protected void AddCollision(Shape shapeA, Shape shapeB)
+        {
+            _currCollisions.Add(new Collision(shapeA, shapeB));
+        }
+
+        protected IList<Shape> Shapes
         {
             get { return _shapes; }
         }

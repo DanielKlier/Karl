@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Karl.Core;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace QuadtreeDemo.Quadtree
 {
@@ -32,10 +32,10 @@ namespace QuadtreeDemo.Quadtree
                     (int)Math.Ceiling(parent.Width / 2f), parent.Height / 2);
         }
 
-        private const int Capacity = 10;
+        private const int Capacity = 50;
         private const int MaxDepth = 10;
         private Rectangle _boundingBox;
-        private readonly HashSet<TNodeDataType> _data = new HashSet<TNodeDataType>();
+        private List<TNodeDataType> _data = new List<TNodeDataType>(Capacity);
         private readonly QuadtreeNode<TNodeDataType>_parent ;
         private QuadtreeNode<TNodeDataType>[] _children = new QuadtreeNode<TNodeDataType>[0];
         private readonly BoundingBoxCalculator _boundingBoxCalculator;
@@ -56,7 +56,7 @@ namespace QuadtreeDemo.Quadtree
 
         public Rectangle BoundingBox { get { return _boundingBox; } }
 
-        public IList<TNodeDataType> Data { get { return _data.ToList(); } }
+        public TNodeDataType[] Data { get { return _data != null ? _data.ToArray() : new TNodeDataType[0]; } }
 
         public void AddObject(TNodeDataType data)
         {
@@ -79,10 +79,11 @@ namespace QuadtreeDemo.Quadtree
             }
         }
 
-        public void RemoveObject(TNodeDataType data)
+        public void RemoveObjectDirect(TNodeDataType data)
         {
-            throw new System.NotImplementedException();
+            _data.Remove(data);
         }
+
         public void UpdateObject(TNodeDataType data)
         {
             throw new System.NotImplementedException();
@@ -90,19 +91,29 @@ namespace QuadtreeDemo.Quadtree
 
         public void QueryRectangle(Rectangle rectangle, HashSet<TNodeDataType> queryResult)
         {
+            var intersectingNodes = new HashSet<QuadtreeNode<TNodeDataType>>();
+            
+            FindNodesForRectangle(rectangle, intersectingNodes);
+
+            foreach (var intersectingObject in intersectingNodes.SelectMany(intersectingNode => intersectingNode._data.Where(data => data.BoundingBox.Intersects(rectangle))))
+            {
+                queryResult.Add(intersectingObject);
+            }
+        }
+
+        public void FindNodesForRectangle(Rectangle boundingBox, HashSet<QuadtreeNode<TNodeDataType>> result)
+        {
             if (_children.Length > 0)
             {
-                foreach (var child in _children)
+                foreach (var child in _children.Where(child => child._boundingBox.Intersects(boundingBox)))
                 {
-                    child.QueryRectangle(rectangle, queryResult);
+                    child.FindNodesForRectangle(boundingBox, result);
                 }
             }
             else
             {
-                foreach (var intersectingObject in _data.Where(data => data.BoundingBox.Intersects(rectangle)))
-                {
-                    queryResult.Add(intersectingObject);
-                }
+                if (boundingBox.Intersects(_boundingBox))
+                    result.Add(this);
             }
         }
 
@@ -120,7 +131,7 @@ namespace QuadtreeDemo.Quadtree
 
         public void UpdateBounds(Rectangle objectBoundingBox)
         {
-            if (_data.Count == 0 && _children.Length == 0)
+            if (_data != null && _data.Count == 0 && _children.Length == 0)
             {
                 _boundingBox = objectBoundingBox;
             }
@@ -197,7 +208,8 @@ namespace QuadtreeDemo.Quadtree
             }
 
             // Objects are all moved to the new leaf nodes so we can clear this node's data
-            _data.Clear();
+            _data = null;
         }
+
     }
 }

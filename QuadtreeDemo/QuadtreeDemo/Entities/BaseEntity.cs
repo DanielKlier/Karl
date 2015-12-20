@@ -1,8 +1,8 @@
 ﻿using System;
+using Karl.Core;
 using Karl.Entities;
 using Karl.Graphics;
 using Microsoft.Xna.Framework;
-using QuadtreeDemo.Quadtree;
 
 namespace QuadtreeDemo.Entities
 {

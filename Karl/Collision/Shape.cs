@@ -1,12 +1,17 @@
 ﻿using Karl.Core;
+using Microsoft.Xna.Framework;
 
 namespace Karl.Collision
 {
-    public abstract class Shape
+    public abstract class Shape : IBoundingBox
     {
+        private Rectangle _cachedBoundingBox;
+        private bool _invalidBoundingBox = true;
+        private Transform _transform;
+
         protected Shape()
         {
-            Transform = Transform.Identity;
+            _transform = Transform.Identity;
         }
 
         public abstract bool Intersects(Shape other);
@@ -29,10 +34,34 @@ namespace Karl.Collision
 
         public object Tag { get; set; }
 
-        public Transform Transform { get; set; }
-
         public delegate void CollisionHandler(Space space, Shape other);
         public event CollisionHandler Collision;
         public event CollisionHandler Separation;
+
+        protected abstract Rectangle CalculateBoundingBox();
+
+        public Rectangle BoundingBox
+        {
+            get
+            {
+                if (_invalidBoundingBox)
+                {
+                    _invalidBoundingBox = false;
+                    _cachedBoundingBox = CalculateBoundingBox();
+                }
+                return _cachedBoundingBox;
+            }
+        }
+
+        public Transform Transform
+        {
+            get { return _transform; }
+            set 
+            {
+                _invalidBoundingBox = true;
+                _transform = value;
+                
+            }
+        }
     }
 }
