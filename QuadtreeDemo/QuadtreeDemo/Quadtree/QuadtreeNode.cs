@@ -35,7 +35,14 @@ namespace QuadtreeDemo.Quadtree
         private const int Capacity = 50;
         private const int MaxDepth = 10;
         private Rectangle _boundingBox;
+
+        // Note: this does in fact not get rid of the memory fragmentation issues. 
+        // Maybe it would be better to make this node abstract and derive a leaf node type as only those need to store data.
+        // Existing leaf nodes may be reused when splitting a node.
         private List<TNodeDataType> _data = new List<TNodeDataType>(Capacity);
+        //private TNodeDataType _data = new TNodeDataType[Capacity];
+        //private HashSet<TNodeDataType> _data;
+
         private readonly QuadtreeNode<TNodeDataType>_parent ;
         private QuadtreeNode<TNodeDataType>[] _children = new QuadtreeNode<TNodeDataType>[0];
         private readonly BoundingBoxCalculator _boundingBoxCalculator;
